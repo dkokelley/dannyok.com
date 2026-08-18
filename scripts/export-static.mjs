@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { rm, writeFile } from "node:fs/promises";
 import worker from "../dist/server/index.js";
 
 const response = await worker.fetch(
@@ -17,3 +17,10 @@ if (!html.includes("Danny O&#x27;Kelley") || !html.includes("danny@dannyok.com")
 }
 
 await writeFile(new URL("../dist/client/index.html", import.meta.url), html);
+
+// Pages only needs the static client output. Removing Vinext's Worker bundle also
+// prevents Cloudflare Pages from auto-detecting its server-only Wrangler config.
+await rm(new URL("../dist/server", import.meta.url), {
+  recursive: true,
+  force: true,
+});
