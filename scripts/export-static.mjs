@@ -24,3 +24,7 @@ await rm(new URL("../dist/server", import.meta.url), {
   recursive: true,
   force: true,
 });
+await rm(new URL("../.wrangler/deploy", import.meta.url), {
+  recursive: true,
+  force: true,
+});
